@@ -31,11 +31,18 @@
 
 ### 移动端
 
-![网址导航移动端首页](./docs/screenshots/mobile-01.png)
+<p align="center">
+  <img src="./docs/screenshots/mobile-01.png" alt="网址导航移动端首页" width="360">
+</p>
 
-![网址导航移动端界面](./docs/screenshots/mobile-02.png)
+<p align="center">
+  <img src="./docs/screenshots/mobile-02.png" alt="网址导航移动端菜单" width="360">
+</p>
 
-![网址导航移动端菜单](./docs/screenshots/mobile-03.png)
+<p align="center">
+  <img src="./docs/screenshots/mobile-03.png" alt="网址导航移动端深色模式" width="360">
+</p>
+
 ---
 
 ## 功能特点
