@@ -19,21 +19,23 @@
 
 ## 📸 截图
 
-<!--
-建议放 2–4 张实际效果截图，例如：
+### 桌面端
 
-- 桌面端首页
-- 深色模式
-- 手机端
-- 搜索 / 分类页面
+![网址导航首页桌面端](./docs/screenshots/home-01.png)
 
-截图文件可以放在 docs/screenshots/：
+![网址导航首页桌面端第二屏](./docs/screenshots/home-02.png)
 
-![网址导航首页](./docs/screenshots/home.png)
-![网址导航深色模式](./docs/screenshots/dark.png)
-![网址导航移动端](./docs/screenshots/mobile.png)
--->
+### 深色模式
 
+![网址导航深色模式](./docs/screenshots/dark-01.png)
+
+### 移动端
+
+![网址导航移动端首页](./docs/screenshots/mobile-01.png)
+
+![网址导航移动端界面](./docs/screenshots/mobile-02.png)
+
+![网址导航移动端菜单](./docs/screenshots/mobile-03.png)
 ---
 
 ## 功能特点
