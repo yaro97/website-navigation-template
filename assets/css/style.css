@@ -1,0 +1,1372 @@
+/* ============================================================================
+ * 瞎分享导航 - 样式表
+ * ============================================================================
+ * 文件结构(方便以后查找/维护):
+ *   1. CSS 变量 / 主题色 (亮色 + 深色模式)
+ *   2. 基础重置
+ *   3. 顶部头部 header (Logo + 顶部菜单 + 标语 + 可展开搜索栏)
+ *   4. 整体布局 layout (侧边栏 + 主内容区)
+ *   5. 侧边栏分类导航 sidebar
+ *   6. 分类标题 + 子标签(tab) + 网站卡片 card
+ *   7. 搜索结果 / 空状态
+ *   8. 页脚 footer (Logo / 链接 / 二维码)
+ *   9. 悬浮按钮 (回到顶部 / 微信 / TG)
+ *   10. 简易占位页 (contribute/links 用的通用占位样式)
+ *   11. 关于我们页面 (about.html 专用:分节小标题卡片)
+ *   12. 网址榜单页面 (rankings.html 专用:红色横幅 + tab + 排行列表)
+ *   13. 响应式 (移动端适配)
+ * ==========================================================================*/
+
+/* ---------- 1. CSS 变量 / 主题色 ---------- */
+:root {
+  /* 亮色主题(默认) */
+  --color-bg: #f5f6f8;
+  --color-bg-elevated: #ffffff;
+  --color-icon-bg: #f6f7f9;      /* 网站图标外面那个圆角小方块的底色,故意用中性色,
+                                     这样不管网站logo是什么颜色都不会跟底色"打架" */
+  --color-border: #e5e7eb;
+  --color-text: #1f2329;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9aa1ac;
+  --color-primary: #3762ff;
+  --color-primary-hover: #2748d6;
+  --color-primary-bg: #eef1ff;
+  --color-danger: #e0472c;
+  /* 品牌强调色,固定的"瞎分享"文字/logo色,浅色深色模式都不变(跟随主题变化的
+     --color-primary 是导航整体的功能色,两者用途不同,别搞混) */
+  --color-brand-accent: #e61b62;
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
+  --shadow-card-hover: 0 4px 10px rgba(16, 24, 40, 0.08), 0 2px 4px rgba(16, 24, 40, 0.06);
+  --shadow-float: 0 8px 24px rgba(16, 24, 40, 0.16);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --sidebar-width: 220px;
+  --topbar-height: 56px;
+  --search-panel-height: 64px;
+  /* 整个网站背景那层极淡的小圆点纹理颜色,浅色/深色模式各自取一个刚好看得出
+     纹理、又不会抢卡片风头的透明度,见下面 body 的 background-image。 */
+  --bg-dot: rgba(31, 35, 41, 0.035);
+}
+
+/* 深色主题:通过给 <html> 加 data-theme="dark" 触发,见 app.js 里的 initTheme() */
+html[data-theme="dark"] {
+  --color-bg: #14161a;
+  --color-bg-elevated: #1c1f26;
+  --color-icon-bg: #262a33;
+  --color-border: #2a2e37;
+  --color-text: #e7e9ee;
+  --color-text-secondary: #9aa1ac;
+  --color-text-muted: #6b7280;
+  --color-primary: #6d8bff;
+  --color-primary-hover: #89a1ff;
+  --color-primary-bg: #1f2540;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 4px 14px rgba(0, 0, 0, 0.45);
+  --shadow-float: 0 10px 28px rgba(0, 0, 0, 0.5);
+  --bg-dot: rgba(255, 255, 255, 0.035);
+}
+
+/* ---------- 2. 基础重置 ---------- */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  /* 整个网站背景加了一层极淡的小圆点纹理(22px 一个点,透明度只有 3.5%),
+     纯 CSS 画的,不是图片——之前纯色背景太单调,加一点点质感但不会干扰
+     卡片和文字的阅读,浅色/深色模式颜色见上面 --bg-dot 变量。 */
+  background-color: var(--color-bg);
+  background-image: radial-gradient(var(--bg-dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--color-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+button { font: inherit; cursor: pointer; }
+img { display: block; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---------- 3. 顶部头部 ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-bg-elevated);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header-topbar {
+  height: var(--topbar-height);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* ---- Logo 组件:头部和页脚共用同一套 markup/样式 ----
+   图片 logo(assets/img/xfx_logo.png)+ 文字,"瞎分享"三个字用品牌色
+   --color-brand-accent,"导航"两个字跟随正文默认颜色。想换 logo 图片,
+   直接换 assets/img/xfx_logo.png 这个文件即可,尺寸不对的话改下面
+   .logo-mark 的 width/height。 */
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  color: var(--color-text);
+  flex-shrink: 0;
+}
+/* logo 图标尺寸:以前是 30px 配 18px 文字(约 1.67 倍),图标比文字明显
+   高出一截、视觉上偏重。图标本身(xfx_logo.png 里的"X")是顶满整张画布画的
+   没有留白,跟文字严格等高反而会显得图标太小、没有存在感——所以这里不是
+   让图标和文字"一样高",而是按约 1.3 倍的比例让图标比文字稍大一点,两者
+   看起来是一组、又不会互相压过对方,这个比例在手机端(见 860px 断点)也是
+   一样,保持全站统一。 */
+.site-logo .logo-mark {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.site-logo__title { font-size: 18px; font-weight: 700; }
+.logo-accent { color: var(--color-brand-accent); }
+
+/* 顶部窄菜单条:每一项是"图标+文字"横排,图标是内联 svg,不依赖图片文件。
+   图标配色跟首页快捷卡片、手机端菜单是同一套 蓝/橙/青/粉,四个入口一一
+   对应,让桌面端头部也有点"彩色"、不那么单调;文字颜色不跟着变,还是
+   走 .topbar-menu 统一的灰色,保证可读性、也不会太花哨。 */
+.topbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 13.5px;
+  font-weight: 600; /* 作为顶部菜单要有存在感,比正文字重一档 */
+  color: var(--color-text-secondary);
+}
+.topbar-menu a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.topbar-menu a svg { flex-shrink: 0; opacity: 0.9; stroke-width: 2.4; } /* 线条比默认 2 再加粗一点,免得显得纤细 */
+.topbar-menu a:hover { color: var(--color-primary); }
+.topbar-menu a:hover svg { opacity: 1; }
+.topbar-menu__icon--blue { color: #4f80ff; }
+.topbar-menu__icon--orange { color: #ff9f43; }
+.topbar-menu__icon--teal { color: #17b8a6; }
+.topbar-menu__icon--pink { color: var(--color-brand-accent); }
+.topbar-menu__icon--purple { color: var(--color-brand-accent); } /* 瞎分享是主站链接,颜色跟 logo 的品牌色保持一致(class 名字是历史遗留,不影响显示) */
+
+.topbar-slogan {
+  margin-left: auto;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.icon-btn:hover { background: var(--color-primary-bg); color: var(--color-primary); }
+.icon-btn[aria-expanded="true"] { background: var(--color-primary-bg); color: var(--color-primary); }
+
+/* 手机端汉堡菜单按钮:桌面端 .topbar-menu 直接显示 4 个入口,不需要这个按钮,
+   默认隐藏,只在下面 860px 断点里露出来。展开的下拉面板 .mobile-nav-panel
+   同理,平时也是完全不占位置的,具体展开动画也放在那个断点里,免得桌面端
+   多一份用不到的样式互相干扰。 */
+.mobile-menu-toggle { display: none; }
+.mobile-nav-panel { display: none; }
+
+/* 可展开的搜索栏:平时收起(max-height:0),点头部搜索图标展开 */
+.search-panel {
+  max-height: 0;
+  overflow: hidden;
+  border-bottom: 1px solid transparent;
+  transition: max-height 0.25s ease, border-color 0.25s ease;
+}
+.search-panel.is-open {
+  max-height: var(--search-panel-height);
+  border-bottom-color: var(--color-border);
+}
+.search-panel .container { padding-top: 12px; padding-bottom: 12px; }
+
+.search-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 640px;
+  /* 之前没写这一行:块级元素默认宽度撑满 .container,又没有 auto margin
+     可分配,视觉上会贴在容器左边——加 margin:0 auto,让它先按 max-width
+     收缩,再在父容器里真正居中(点开头部搜索图标时尤其明显)。 */
+  margin: 0 auto;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0 6px 0 16px;
+  height: 40px;
+}
+
+.search-box input[type="search"] {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 14px;
+  height: 100%;
+  min-width: 0;
+}
+/* 占位文字只是个语气性的小提示,不需要抢眼——比默认的占位色再淡一档
+   (--color-text-muted 基础上再压一次透明度),让它安安静静待在背景里,
+   真正打字的时候(色深的正文字色)反差自然就出来了。 */
+.search-box input[type="search"]::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+.search-box select {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.search-box button.search-submit {
+  border: none;
+  background: var(--color-primary);
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 只在视觉上隐藏,屏幕阅读器/JS 照常能读到——首页大搜索区那个隐藏的
+   <select id="hero-search-engine"> 用这个,标签点击去驱动它,不需要用户
+   直接看到/操作这个下拉框本身。 */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- 3.5 首页专属:大搜索区 + 快捷入口(其它占位页没有这一块) ----------
+   参照用户提供的参考图重新做过一版:浅蓝色渐变背景(叠加几团纯 CSS 画的模糊
+   "气泡"色块,大小/位置/透明度各不一样,营造一点漂浮感,不是图片,不会有
+   裂图风险;之前试过一版斜向细线纹理,用户反馈线条不如气泡好看,换成了
+   现在这版纯气泡)+ 居中大标题 + 搜索框 + 下面一排 4 个圆角图标"快捷入口"
+   卡片,取代之前的 5 张图片 Banner。标签(站内/百度/Google/必应/淘宝)放在
+   搜索框上面——先选范围再输入,更符合常见搜索门户的使用习惯,点哪个就真的
+   切换成对应的搜索方式,跟下面这个 hidden 的 <select id="hero-search-engine">
+   联动,复用的是跟头部搜索栏完全一样一套 JS 逻辑(见 app.js 的
+   bindSearchInstance)。 */
+.home-hero {
+  position: relative;
+  overflow: hidden;
+  /* 气泡装饰:用固定像素半径(circle 180px 这种写法)而不是百分比,
+     这样气泡的大小不会跟着 banner 又宽又矮的比例一起被拉伸变形,
+     不管在什么屏幕宽度下都是正圆、看得出是一个个独立的"泡泡"。
+     圆心位置仍用百分比,方便随容器宽度自适应地分布在四角。 */
+  background:
+    radial-gradient(circle 130px at 6% 14%, rgba(55, 98, 255, 0.22), rgba(55, 98, 255, 0) 72%),
+    radial-gradient(circle 70px at 16% 82%, rgba(55, 98, 255, 0.16), rgba(55, 98, 255, 0) 74%),
+    radial-gradient(circle 46px at 30% 30%, rgba(55, 98, 255, 0.14), rgba(55, 98, 255, 0) 76%),
+    radial-gradient(circle 150px at 95% 10%, rgba(230, 27, 98, 0.18), rgba(230, 27, 98, 0) 72%),
+    radial-gradient(circle 80px at 86% 85%, rgba(230, 27, 98, 0.14), rgba(230, 27, 98, 0) 74%),
+    radial-gradient(circle 40px at 72% 55%, rgba(230, 27, 98, 0.12), rgba(230, 27, 98, 0) 76%),
+    linear-gradient(180deg, var(--color-primary-bg), var(--color-bg) 86%);
+  /* 标题去掉之后搜索框基本上就是首屏第一眼看到的内容,顶部留白比之前
+     (有标题时是 44px)稍微加大一点,不然搜索框贴着头部导航栏,显得太挤。 */
+  padding: 60px 0 32px;
+  border-bottom: 1px solid var(--color-border);
+  /* 上边缘用内阴影,跟粘性头部之间拉开一点层次;下边缘用一个很浅的
+     投影,让 banner 区块看起来更像一整块独立的卡片。下边缘阴影很淡,
+     如果跟下面的网址列表衔接不好看可以去掉,不影响上边缘的效果。 */
+  box-shadow:
+    inset 0 10px 14px -12px rgba(16, 24, 40, 0.16),
+    0 10px 20px -12px rgba(16, 24, 40, 0.14);
+}
+
+.hero-search {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.hero-search__tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hero-tab {
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-secondary);
+  padding: 6px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.hero-tab:hover { background: var(--color-border); color: var(--color-text); }
+.hero-tab.is-active { border-color: transparent; background: var(--color-primary); color: #fff; }
+
+.hero-search__box.search-box {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  height: 52px;
+  background: var(--color-bg-elevated);
+  box-shadow: 0 8px 24px rgba(31, 45, 90, 0.08);
+}
+.hero-search__box input[type="search"] { font-size: 15px; }
+.hero-search__box .search-submit { width: 40px; height: 40px; }
+
+/* 4 个快捷入口卡片:图标(纯 CSS 圆角方块 + 内联 svg)+ 文字 + 箭头横排。
+   想改成别的分类:改 href(站内分类用锚点 #cat-xxx,对应 data.js 里分类的
+   id)、改 svg 和文字,颜色在 --blue/--pink/--teal/--orange 四个修饰符里改。 */
+.hero-quicklinks {
+  /* 不设 max-width,让它跟 .container 一样宽——这样跟下面 .layout 里的
+     网站列表(侧边栏+卡片区)左右边缘能对齐,不会看着比下面内容窄一截。 */
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.hero-quicklink {
+  /* 改回最初的高度:之前试过"加高一圈"(padding 20px18/图标 48px),
+     用户反馈banner 反而显得太高,改回更紧凑的初始尺寸。 */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  min-width: 0;
+}
+.hero-quicklink:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
+.hero-quicklink__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+/* 图标改成"浅色底 + 同色系线条图标"(色块变浅,图标本身不再是实心填充白色),
+   看起来比之前"深色实心方块+白色图标"清爽,颜色仍然用同一套 --blue/--pink/
+   --teal/--orange,只是背景换成低透明度的浅色版本,图标颜色改成对应的实色。 */
+.hero-quicklink__icon--blue { background: rgba(79, 128, 255, 0.12); color: #4f80ff; }
+.hero-quicklink__icon--pink { background: rgba(230, 27, 98, 0.12); color: var(--color-brand-accent); }
+.hero-quicklink__icon--teal { background: rgba(23, 184, 166, 0.12); color: #17b8a6; }
+.hero-quicklink__icon--orange { background: rgba(255, 159, 67, 0.16); color: #ff9f43; }
+.hero-quicklink__title {
+  flex: 1;
+  min-width: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hero-quicklink__arrow { color: var(--color-text-muted); flex-shrink: 0; }
+
+/* ---------- 4. 整体布局 ---------- */
+.layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  /* 只设上下内边距,不用简写 padding,免得把 .container 本来的左右
+     留白(padding: 0 20px)盖掉——这曾经是移动端卡片贴边的根因。 */
+  padding-top: 24px;
+  /* 60px 加上 footer 自己的 margin-top:20px,正文和 footer 之间空出将近
+     80px,明显太空。缩到 32px,留白更紧凑一点。 */
+  padding-bottom: 32px;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0; /* 防止内部长文本撑破 flex 容器 */
+}
+
+/* ---------- 5. 侧边栏分类导航 ---------- */
+.sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  position: sticky;
+  top: calc(var(--topbar-height) + 24px);
+  max-height: calc(100vh - var(--topbar-height) - 48px);
+  overflow-y: auto;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px;
+}
+
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 500; /* 分类导航,比正文字重一档,不然显得太细 */
+  cursor: pointer;
+}
+.sidebar__item svg { color: var(--accent, var(--color-text-secondary)); flex-shrink: 0; stroke-width: 2.4; } /* 图标线条加粗一点 */
+
+.sidebar__item:hover { background: var(--color-bg); color: var(--color-text); }
+
+.sidebar__item.is-active {
+  background: var(--color-primary-bg);
+  color: var(--color-text);
+  font-weight: 700; /* 选中态比普通态(500)再重一档,保持层级区分 */
+}
+.sidebar__item.is-active svg { color: var(--accent, var(--color-primary)); }
+
+.sidebar__count {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* 以下几个是手机端抽屉专属的结构(标题/底部导航链接区标题/底部导航链接/
+   收起按钮),桌面端侧边栏是常驻的粘性列表,不需要这些,默认隐藏。
+   手机端的显示规则见下面的 @media (max-width: 860px)。 */
+.sidebar__mobile-head,
+.sidebar__mobile-links-title,
+.sidebar__mobile-links,
+.sidebar__collapse {
+  display: none;
+}
+
+/* ---------- 6. 分类标题 + 子标签 + 网站卡片 ---------- */
+.category-section { scroll-margin-top: calc(var(--topbar-height) + 16px); margin-bottom: 44px; }
+
+.category-section__head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  /* 行间距(子标签换到标题下面单独一行时,两行之间的垂直间距)从 4px
+     调到 10px——4px 太挤,标题和子标签像贴在一起。 */
+  gap: 10px 16px;
+  /* 比之前更松一点的上下留白,配合下面那条"跟标题同一行"的分割线,
+     让相邻分类之间有明显的呼吸感,不需要再单独加一条整行的分割线。 */
+  margin: 6px 0 20px;
+}
+
+/* 分割线放在标题这一行的最后面,跟标题、子标签同一行,往右一直
+   延伸到这一行剩下的宽度(flex:1),而不是单独另起一行——这样看起来
+   更像"标题行自带一条线"，而不是硬插进来的一个分隔块。
+   子标签不多、这一行还有富余宽度时才会看到线;子标签很多、这一行已经
+   排满时,线会自然换到下一行,不会挤爆布局。 */
+.category-section__rule {
+  flex: 1 1 32px;
+  min-width: 24px;
+  height: 1px;
+  background: var(--color-border);
+  align-self: center;
+}
+
+.category-section__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--accent, var(--color-text));
+}
+.category-section__icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--accent, var(--color-primary)) 14%, transparent);
+  color: var(--accent, var(--color-primary));
+  flex-shrink: 0;
+}
+
+.category-section__title .count {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  margin-left: 2px;
+}
+
+/* 子标签胶囊:第一个默认高亮(填充色),其余是纯文字,点击切换。
+   紧跟在分类标题右边(不用 margin-left:auto 推到最右边)——这样标题和
+   它自己的子标签视觉上是一组,和原网站的排布方式一致,宽屏下也不会
+   因为隔得太远而看不出两者的归属关系。 */
+.tab-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.tab-pill {
+  /* 之前用 --color-icon-bg 当底色,在浅色模式下这个颜色(#f6f7f9)跟
+     页面背景(#f5f6f8)几乎一模一样,视觉上等于没有背景。改用"白色卡片 +
+     浅边框"这一套(跟网站卡片/榜单 tab 一致),对比度才够,能看出是个
+     可点的胶囊按钮。 */
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  box-sizing: border-box;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap; /* 保证胶囊里的文字始终一行显示,不会被挤成两行变成一个方块 */
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.tab-pill:hover { background: var(--color-border); color: var(--color-text); }
+.tab-pill.is-active {
+  border-color: transparent;
+  background: var(--accent, var(--color-primary));
+  color: #fff;
+  font-weight: 600;
+}
+/* 数量是 0 的子标签,文字整体调淡一点,一眼就能看出"这个还没内容",
+   但仍然可以点(点了会看到"建设中"提示,方便你知道该往这个分组加东西了)。
+   之前在标签上直接显示数字(比如"编程常用3"),后来发现子标签一多就很容易
+   把这一整行挤到换行、显得很乱,所以数字去掉了,只保留这个"调淡"的效果。 */
+.tab-pill.is-empty { opacity: 0.5; }
+.tab-pill.is-empty:hover { opacity: 0.8; }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.site-card {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  /* 网格子项默认 min-width:auto,遇到里面 white-space:nowrap 的英文标题
+     (比如 "Microsoft Activation Script")会被撑成"按最长单词的宽度",
+     导致整列被顶宽、标题的省略号(ellipsis)完全不起作用,文字直接溢出卡片
+     右边。这里显式设成 0,标题才能正常被裁出省略号。 */
+  min-width: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.site-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--color-primary);
+}
+
+.site-card__icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-icon-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 15px;
+  overflow: hidden;
+}
+.site-card__icon img { width: 100%; height: 100%; object-fit: cover; }
+/* 图标本地库里存的都是从网上截取的 favicon,非正方形的 logo 在截图时会自动
+   拼接成正方形、空白处补的是不透明白色(截图没法保留透明通道)。浅色模式下
+   容器底色本来就是接近白色的浅灰(--color-icon-bg),补白基本看不出来;但深
+   色模式下容器底色会变深灰,这时候补白就会露出一圈很突兀的白边。所以这里让
+   "带图片"的图标容器始终保持浅色底,不跟随深色模式切换——更像贴纸/App图标
+   的展示方式,不会有主题切换后图标发虚的问题;纯文字兜底的 .icon-letter 不
+   受影响,继续跟随主题用彩色底。 */
+html[data-theme="dark"] .site-card__icon:has(img) {
+  background: #f6f7f9;
+  border-color: rgba(15, 18, 24, 0.08);
+}
+.site-card__icon .icon-letter {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+}
+
+.site-card__body { min-width: 0; flex: 1; }
+
+.site-card__title {
+  /* 标题的标签是 <span>,默认 display:inline——overflow/text-overflow
+     对纯 inline 元素是不生效的(浏览器直接忽略),这也是之前长英文标题
+     "Microsoft Activation Script..." 会真的溢出卡片、而不是被省略号
+     截断的根本原因。改成 block 就行,不需要动 HTML。 */
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.site-card__desc {
+  margin-top: 3px;
+  font-size: 12.5px;
+  color: var(--color-text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 整张卡片是一个 <a>,标题和描述不需要单独可点 */
+a.site-card { cursor: pointer; }
+
+/* ---------- 7. 搜索结果 / 空状态 ---------- */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--color-text-muted);
+}
+.empty-state__emoji { font-size: 40px; margin-bottom: 12px; }
+.empty-state--tab { padding: 36px 20px; font-size: 13px; }
+.empty-state--tab .empty-state__emoji { font-size: 26px; margin-bottom: 6px; }
+
+/* 搜索模式下,用一个单独的区块展示所有匹配结果(不再按分类分组) */
+#search-results-section { display: none; }
+#search-results-section.is-active { display: block; }
+#normal-view.is-hidden { display: none; }
+
+/* ---------- 8. 页脚 ---------- */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  margin-top: 12px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.footer-grid {
+  display: grid;
+  /* 左边品牌栏的实际内容(slogan 最多 360px 宽)用不了 1.3fr 分到的那么多空间,
+     之前用比例分配导致左边空着一大截、中间链接却挤得要换行。
+     改成给左栏一个"够用就好"的宽度上限(minmax 的第二个值),多出来的空间
+     全部让给中间的链接栏(1fr),这样同样的容器宽度下链接能多出一大截空间。 */
+  grid-template-columns: minmax(260px, 360px) 1fr auto;
+  gap: 32px;
+  /* 同上:只设上下,不覆盖 .container 的左右留白 */
+  padding-top: 32px;
+  padding-bottom: 24px;
+  align-items: start;
+}
+
+.footer-brand .site-logo { margin-bottom: 10px; }
+.footer-slogan {
+  margin: 0 0 14px;
+  max-width: 360px;
+  /* 换行后两行长度差很多(第一行很长、第二行只剩几个字)——用 text-wrap:
+     balance 让浏览器自己找一个让两行长度更接近的断点,不支持的浏览器会
+     自动退回普通换行,不会出问题。 */
+  text-wrap: balance;
+}
+.footer-social { display: flex; gap: 8px; position: relative; }
+
+/* 页脚链接:还原成原站"一整行文字、用 · 分隔、自动换行"的样式,
+   而不是竖排列表。写法是把 " · " 分隔符通过 CSS 加在每个链接前面
+   (第一个链接前面没有),这样 HTML 里只需要顺序写一串 <a> 标签,
+   分隔符和换行完全交给 CSS/浏览器自己处理。 */
+.footer-links {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500; /* 跟顶部菜单一样,是可点的导航链接,比 slogan/copyright 重一档更好识别 */
+  line-height: 2;
+}
+.footer-links a { display: inline; white-space: nowrap; }
+.footer-links a:not(:first-child)::before {
+  content: " · ";
+  color: var(--color-text-muted);
+}
+.footer-links a:hover { color: var(--color-primary); }
+
+.footer-qr { display: flex; gap: 20px; }
+.footer-qr figure { margin: 0; text-align: center; }
+.footer-qr img {
+  width: 84px;
+  height: 84px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  object-fit: cover;
+}
+.footer-qr figcaption { margin-top: 6px; font-size: 11.5px; color: var(--color-text-muted); }
+
+.footer-bottom {
+  border-top: 1px solid var(--color-border);
+  /* 同上:只设上下,不覆盖 .container 的左右留白 */
+  padding-top: 16px;
+  padding-bottom: 32px;
+}
+.footer-copyright { margin: 0; color: var(--color-text-muted); }
+/* "瞎分享"链接到主站 xiafenxiang.com(这个导航站 nav.xiafenxiang.com 只是
+   它的一个子站),平时颜色跟周围文字一样低调,鼠标悬停才提示可以点。 */
+.footer-copyright a { color: inherit; }
+.footer-copyright a:hover { color: var(--color-primary); text-decoration: underline; }
+
+/* ---------- 9. 悬浮按钮 ---------- */
+.fab-stack {
+  position: fixed;
+  right: 22px;
+  bottom: 28px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.fab {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-secondary);
+  box-shadow: var(--shadow-float);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease, transform 0.2s ease, color 0.15s ease, background-color 0.15s ease;
+}
+.fab:hover { color: var(--color-primary); }
+
+#fab-top {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+#fab-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.fab-popover {
+  position: absolute;
+  right: 56px;
+  bottom: 0;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-float);
+  padding: 12px;
+  text-align: center;
+  display: none;
+  white-space: nowrap;
+}
+.fab-popover.is-open { display: block; }
+.fab-popover img { width: 120px; height: 120px; border-radius: var(--radius-sm); margin: 0 auto; }
+.fab-popover p { margin: 8px 0 0; font-size: 12px; color: var(--color-text-secondary); }
+
+/* footer 里"微信"图标自己的二维码小气泡:复用上面这套 .fab-popover
+   卡片样式,但那一份默认是相对"右下角悬浮按钮组"定位的(right/bottom),
+   直接用会跳到屏幕另一头去,所以这里覆盖定位改成跟着 footer 图标出现。
+   注意:这条规则必须写在 .fab-popover 后面 —— 二者都是单类选择器,
+   优先级相同时靠"写在后面的赢",放在 .fab-popover 前面会导致 right/
+   bottom 被上面那条覆盖回去,弹窗位置又跑偏(曾经踩过这个坑)。 */
+.fab-popover--footer {
+  /* 从图标下方弹出的话,打开瞬间会把 footer 的可滚动高度撑高一截,
+     手机上感觉像页面突然变长了一节。改成往上弹,叠在 slogan 文字上面,
+     不会影响页面原本的滚动高度。 */
+  top: auto;
+  bottom: calc(100% + 10px);
+  left: 0;
+  right: auto;
+}
+
+/* ---------- 10. 简易占位页 ---------- */
+.simple-page-main {
+  max-width: 640px;
+  margin: 60px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+.simple-page-main h1 { font-size: 22px; margin-bottom: 12px; }
+.simple-page-main p { color: var(--color-text-secondary); margin-bottom: 24px; }
+.simple-page-main .back-home {
+  display: inline-flex;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* 投稿/友链页面里给用户复制的"格式 demo"——左对齐、等宽字体的小卡片,
+   跟上面居中的说明文字区分开,方便直接照着填。 */
+.simple-page-main .contact-format {
+  text-align: left;
+  margin: 0 auto 24px;
+  padding: 16px 20px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--color-text);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* ---------- 11. 关于我们页面 (about.html 专用) ----------
+ * about.html 内容比其它占位页丰富一些(原网站上是有正式内容的,不是纯占位),
+ * 所以单独给它一套"白色卡片 + 分节小标题"的样式,而不是复用居中的
+ * .simple-page-main。 */
+.about-main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+.about-mark {
+  display: block;
+  width: 28px;
+  height: 4px;
+  margin: 0 auto 14px;
+  border-radius: 2px;
+  background: var(--color-danger);
+}
+.about-main h1 {
+  margin: 0 0 24px;
+  font-size: 22px;
+  text-align: center;
+  color: var(--color-text);
+}
+.about-card {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 8px 32px 28px;
+  box-shadow: var(--shadow-card);
+}
+.about-card__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 26px 0 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+.about-card__title:first-child { margin-top: 24px; }
+.about-card__title::before {
+  content: "";
+  width: 4px;
+  height: 15px;
+  border-radius: 2px;
+  background: var(--color-danger);
+  flex-shrink: 0;
+}
+.about-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 1.9;
+}
+.about-list li { margin-bottom: 8px; }
+.about-list a { color: var(--color-primary); }
+.about-quote {
+  margin: 6px 0 4px;
+  padding: 16px 20px;
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+}
+.about-main .back-home {
+  display: flex;
+  width: fit-content;
+  margin: 28px auto 0;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ---------- 12. 网址榜单页面 (rankings.html 专用) ----------
+ * 这一页跟其它"简易占位页"不是共用同一套 .simple-page-main 样式,
+ * 是单独一套(红色横幅 + 左边 tab + 右边排行列表),所以单独拎出一节。
+ * 列表里每一行复用的是首页网站卡片同一套 .site-card/.site-card__icon/
+ * .site-card__title/.site-card__desc 样式(见第 6 节),这里只多加了
+ * .rank-row 这个修饰类,把卡片从"格子里的一小块"变成"占满一整行"。 */
+.rankings-main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+.rankings-hero {
+  margin-top: 24px;
+  padding: 36px 24px 44px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(135deg, #ef4444 0%, #f2685f 55%, #f7a58c 100%);
+  box-shadow: 0 12px 30px -12px rgba(239, 68, 68, 0.45);
+}
+.rankings-hero__label {
+  margin: 0 0 10px;
+  font-size: 12px;
+  letter-spacing: 3px;
+  opacity: 0.85;
+}
+.rankings-hero__title {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 800;
+}
+.rankings-hero__subtitle {
+  margin: 0;
+  font-size: 13.5px;
+  opacity: 0.92;
+}
+
+.rankings-layout {
+  margin-top: -20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.rankings-tabs {
+  flex: 0 0 148px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+.rankings-tab {
+  padding: 12px 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  /* 之前默认是透明背景,没选中的"周榜/月榜"看起来像啥都没有、不像个可以点的
+     菜单项,所以给一个默认的浅底色,选中的那个再用红色渐变盖过去。 */
+  background: var(--color-icon-bg);
+  color: var(--color-text-secondary);
+  font-size: 14.5px;
+  font-weight: 600;
+  font-family: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+.rankings-tab:hover { background: var(--color-border); }
+.rankings-tab.is-active {
+  background: linear-gradient(135deg, #ef4444, #f2685f);
+  color: #fff;
+}
+
+.rankings-list {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+/* .rank-row 叠加在 .site-card 上:去掉卡片原来"格子里一小块"的宽度限制,
+   让它占满这一整行,其它(图标/标题/简介样式)全部沿用 .site-card 原样。 */
+.rank-row {
+  width: 100%;
+}
+.rankings-empty {
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+}
+
+.rankings-main .back-home {
+  display: flex;
+  width: fit-content;
+  /* 之前是 0 auto,删掉上面的说明文字段落之后,这个按钮直接贴着列表
+     最后一张卡片,加一点顶部间距。 */
+  margin: 28px auto 0;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ---------- 13. 响应式 ---------- */
+@media (max-width: 860px) {
+  .topbar-menu, .topbar-slogan { display: none; } /* 移动端屏幕太窄,隐藏顶部菜单和标语,保留logo+搜索+深色模式+汉堡菜单 */
+
+  /* 参考老站点的手机端头部布局:汉堡菜单固定最左边、搜索+深色模式固定最
+     右边,logo 不管两边图标各占多宽,都始终在正中间——用 position:relative
+     + absolute 定位实现,而不是简单的 flex 排列(flex 排列时 logo 两边宽度
+     不一致会导致 logo 视觉上偏一边)。
+     注意:这里必须写成 .header-topbar .site-logo,不能只写 .site-logo——
+     页脚(.footer-brand)里的品牌 logo 用的是同一个 class 名字,之前偷懒
+     写了裸 .site-logo,结果页脚那个 logo 也被一起加上了 position:absolute,
+     而它自己的父级(footer-brand/footer-grid/site-footer)都没有设置
+     position,找不到定位参照,就一路"飞"到了整个文档的顶层去,变成页面中间
+     位置凭空多出来一个 logo、页脚自己反而空了一块。 */
+  .header-topbar { gap: 12px; position: relative; justify-content: space-between; }
+
+  .header-topbar .site-logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  /* logo 图标+文字在手机端整体缩小一档,原来的桌面端尺寸(30px 图标 + 18px
+     文字)在窄屏里显得偏大。跟桌面端一样按约 1.3 倍的比例(20px 图标 配
+     15px 文字)缩放,不是让图标跟文字严格等高——图标完全等高文字会显得
+     太小、没有存在感,比文字稍大一点看起来更协调。
+     注意这条不像上面 position:absolute 那条一样限定在 .header-topbar 里——
+     大小这个属性不会有"逃逸到别的容器"的问题,直接写裸 .site-logo 让头部
+     和页脚的 logo 在手机端统一缩到同一个尺寸,两处看起来大小一致。 */
+  .site-logo .logo-mark { width: 20px; height: 20px; }
+  .site-logo__title { font-size: 15px; }
+
+  /* logo 挪去绝对定位之后,原来"撑开两侧"的 margin-left:auto 不再需要——
+     header-topbar 现在只剩汉堡菜单和 header-actions 两个正常流里的子元素,
+     上面的 justify-content: space-between already 把它们分别推到两端。 */
+
+  /* 汉堡菜单按钮放在 logo 前面(最左边,参考老站点布局)。点击展开的面板/
+     图标切换(≡ 变 ✕)+ 背景遮罩逻辑见 app.js 的 initMobileMenu():首页
+     (有分类侧边栏)展开的是下面 .sidebar 抽屉,其它占位页展开的是
+     #mobile-nav-panel 纯链接面板,两种情况共用同一个按钮和遮罩。 */
+  .mobile-menu-toggle { display: flex; }
+
+  /* 老站点手机端头部的图标是"裸"图标,没有圆形底色/边框——这里去掉头部
+     三个图标按钮(汉堡/搜索/深色模式)的圆圈样式,只在头部这个区域生效,
+     不影响页脚"微信/邮箱/GitHub"那几个仍然带圆圈底色的图标按钮。 */
+  .header-topbar .icon-btn {
+    border: none;
+    background: transparent;
+    width: 32px;
+    height: 32px;
+  }
+  .header-topbar .icon-btn:hover,
+  .header-topbar .icon-btn[aria-expanded="true"] {
+    background: transparent;
+    color: var(--color-primary);
+  }
+
+  .mobile-menu-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(16, 24, 40, 0.45);
+    z-index: 55;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .mobile-menu-backdrop.is-open { opacity: 1; pointer-events: auto; }
+
+  /* 没有分类的占位页(about/links/contribute/rankings):汉堡菜单点开的是
+     这个纯链接下拉面板,z-index 要比上面的遮罩(55)高,不然会被遮罩盖住。 */
+  .mobile-nav-panel {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-bg-elevated);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 12px 24px rgba(16, 24, 40, 0.1);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+    z-index: 60;
+  }
+  .mobile-nav-panel.is-open { max-height: 260px; }
+  .mobile-nav-panel a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 500; /* 跟桌面端 .topbar-menu 一样加重一档 */
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .mobile-nav-panel a svg { stroke-width: 2.4; }
+  .mobile-nav-panel a:last-child { border-bottom: none; }
+  .mobile-nav-panel a:hover { color: var(--color-primary); background: var(--color-primary-bg); }
+
+  /* 首页大搜索区:4 个快捷入口卡片桌面端一排 4 个,窄屏放不下会太挤,
+     改成两列两行。 */
+  .home-hero { padding: 32px 0 20px; }
+  .hero-quicklinks { grid-template-columns: repeat(2, 1fr); }
+  /* 手动改成竖排(侧边栏在上,正文在下)之后,.layout 原来的
+     align-items: flex-start 会让子元素"宽度按内容缩",而不是撑满容器——
+     .sidebar 那边已经单独写了 width:100% correct 过来了,.main-content
+     漏掉了,导致里面的 .card-grid 会算出一个比屏幕还宽的宽度,右边卡片
+     直接被裁掉一截、完全没有右边距。这里把 .main-content 也补上。 */
+  .layout { flex-direction: column; gap: 16px; align-items: stretch; }
+  .main-content { width: 100%; }
+
+  /* 分类侧边栏改成从左边滑出的抽屉,不再是页面顶部一块跟着滚动条一起
+     跑掉的内容——之前那版是"胶囊按钮"横排在正文最上面,往下滚动列表
+     之后就再也够不到了,只能划回顶部重新选分类。现在 .sidebar 平时
+     完全移出屏幕左边(translateX(-100%)),点头部汉堡菜单展开,不管
+     滚动到哪里都能随时点开、跳到对应分类。 */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 82%;
+    max-width: 300px;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg-elevated);
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: 0 0 32px rgba(16, 24, 40, 0.18);
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 60;
+  }
+  .sidebar.is-open { transform: translateX(0); }
+
+  .sidebar__mobile-head {
+    display: block;
+    flex-shrink: 0;
+    padding: 18px 16px 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* 分类列表在抽屉里用回桌面端那种竖排整行样式(图标+文字+数量),
+     不再是横向换行的"胶囊"——抽屉本来就是竖着滚动的,整行更好点/好读,
+     数量也留着(桌面端一直都有),不用像胶囊版那样藏起来。 */
+  #sidebar-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+  }
+
+  /* 分类列表和底下的"网站菜单"链接是两个不同性质的东西,加一行小标题
+     区分开(参考老站点抽屉里"分类"和"其它页面入口"分区域展示的做法),
+     不然两段列表连在一起,容易让人以为都是分类。 */
+  .sidebar__mobile-links-title {
+    display: block;
+    flex-shrink: 0;
+    padding: 14px 16px 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .sidebar__mobile-links {
+    display: block;
+    flex-shrink: 0;
+    padding: 0 8px 8px;
+  }
+  .sidebar__mobile-links a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500; /* 跟桌面端 .topbar-menu 一样加重一档 */
+    color: var(--color-text-secondary);
+  }
+  .sidebar__mobile-links a svg { stroke-width: 2.4; }
+  .sidebar__mobile-links a:hover { background: var(--color-bg); color: var(--color-text); }
+
+  /* 链接前面的彩色图标小方块——跟首页 4 个快捷入口卡片(.hero-quicklink__icon)
+     用的是同一套 蓝/橙/青/粉 配色,尺寸按这里的行高缩小一档,整个站的
+     "彩色图标"视觉语言保持一致。这一套图标同时也用在其它 4 个占位页的
+     #mobile-nav-panel 里(同样 4 个链接,见下面 .mobile-nav-panel a 的样式)。 */
+  .mobile-link-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .mobile-link-icon--blue { background: rgba(79, 128, 255, 0.12); color: #4f80ff; }
+  .mobile-link-icon--pink { background: rgba(230, 27, 98, 0.12); color: var(--color-brand-accent); }
+  .mobile-link-icon--teal { background: rgba(23, 184, 166, 0.12); color: #17b8a6; }
+  .mobile-link-icon--orange { background: rgba(255, 159, 67, 0.16); color: #ff9f43; }
+  .mobile-link-icon--purple { background: rgba(230, 27, 98, 0.12); color: var(--color-brand-accent); } /* 同上,跟 logo 品牌色一致 */
+
+  .sidebar__collapse {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-shrink: 0;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-top: 1px solid var(--color-border);
+    background: none;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+  }
+
+  .card-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .site-card__desc { -webkit-line-clamp: 1; }
+
+  /* 移动端整体居中(logo/slogan/图标/链接/二维码),比全部靠左看着更
+     像"手机 App 底部信息栏"那种对称的样子。 */
+  .footer-grid { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+  /* logo 和下面 slogan 文字之间原来只有 10px,贴得太近,手机端加大一点。
+     另外 .site-logo 是 display:flex,块级元素默认宽度是撑满父容器,
+     margin:auto 没有多余空间可分配,视觉上还是贴左——加 width:fit-content
+     让这个盒子先收缩到 logo 实际宽度,auto margin 才能真正居中它。 */
+  .footer-brand .site-logo { width: fit-content; margin: 0 auto 16px; }
+  .footer-slogan { margin-left: auto; margin-right: auto; }
+  .footer-social { justify-content: center; }
+  .footer-qr { justify-content: center; }
+  /* Copyright 那一行是 .footer-grid 外面单独一个 .footer-bottom 容器,
+     不会跟着 .footer-grid 的 text-align:center 一起居中,单独补一条。 */
+  .footer-bottom { text-align: center; }
+  /* 链接不再是"按文字宽度自然换行"(会导致最后一行只剩一个孤零零的字,
+     比如8个链接换行成"7+1"),但也不再用固定 25% 宽度的网格——文字本来就
+     短,强制等宽反而把间距拉得很大、看着很松散。现在改成"按文字自身宽度
+     排列 + 在第4个链接后面插一个强制换行的占位元素",8个链接稳定分成
+     4+4两行,每行内部的间距是真实的、紧凑的 gap,不受列宽绑架。
+     不完整的最后一行靠 justify-content:center 整体居中,不会歪在左边。 */
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 4px;
+    column-gap: 6px;
+  }
+  .footer-links a { flex: 0 0 auto; }
+  /* 插在第4个链接后面的空元素,flex-basis:100% 会强制它自己独占一行,
+     后面的链接被顶到下一行——这样不需要知道链接总数就能稳定分成两行。 */
+  .footer-links__break { flex-basis: 100%; height: 0; }
+  /* 原来的选择器是 .footer-links a:not(:first-child)::before,:not() 也算一个
+     class 级别的选择器,优先级比这里原来写的 .footer-links a::before 高,
+     直接覆盖不掉——要用一模一样的选择器才能盖过去。 */
+  .footer-links a:not(:first-child)::before { content: none; }
+
+  .fab-stack { right: 14px; bottom: 14px; }
+  .fab { width: 40px; height: 40px; }
+
+  /* 网址榜单页:跟侧边分类导航同一个断点收起,tab 从"左边一竖列"改成
+     "顶部一横排"——520px 才切太窄了,140px 宽的竖排 tab 在 521~860px
+     这段中等宽度里会把右边列表挤得很窄,不好看。 */
+  .rankings-layout { flex-direction: column; align-items: stretch; }
+  /* flex:0 0 148px 是桌面端"148px 宽的竖排侧栏"用的,.rankings-layout 变成
+     纵向排列后,148px 会从"宽度"变成"高度"，把整条 tab 撑成一个高高的方块——
+     这里必须显式重置成 auto,让它只由内容(按钮的 padding/字号)决定高度。 */
+  .rankings-tabs { flex: 0 0 auto; flex-direction: row; width: 100%; }
+  .rankings-tab { flex: 1; }
+  .rankings-list { width: 100%; }
+}
+
+@media (max-width: 520px) {
+  .search-box select { display: none; } /* 移动端隐藏搜索引擎切换,省空间 */
+  .card-grid { grid-template-columns: 1fr 1fr; }
+
+  /* 首页大搜索区在手机上进一步收紧:标签胶囊变小一圈,快捷入口卡片
+     图标和间距也缩小一圈,两列网格不变(见 860px 断点)。 */
+  .hero-tab { padding: 5px 12px; font-size: 12px; }
+  .hero-quicklinks { gap: 10px; }
+  .hero-quicklink { padding: 14px 14px; gap: 10px; }
+  .hero-quicklink__icon { width: 40px; height: 40px; }
+  .hero-quicklink__title { font-size: 14px; }
+  .category-section__title .count { display: none; }
+  /* 子标签太多、一行放不下时直接换到第二行显示,而不是横向滚动——
+     配合上面 .tab-pill 的 white-space:nowrap,每个胶囊自己不会被挤变形。 */
+  .tab-row { width: 100%; flex-wrap: wrap; }
+  /* 子标签这一行本来就是 width:100%,一定会自己换到下一行——这里用
+     order 把"分割线"调到子标签前面(视觉顺序变成:标题+分割线一行,
+     子标签单独一行),而不是排在子标签后面、被子标签挤到第三行去,
+     看起来像一条跟分类毫无关系、凭空多出来的横线。 */
+  .category-section__rule { order: 1; }
+  .tab-row { order: 2; }
+
+  /* 手机屏幕更窄,tab 从"跟文字差不多高的方块"改成矮一点、更扁的条形,
+     宽高比更接近原来网站的样子,不会看着像三个正方形按钮。 */
+  .rankings-tab { padding: 9px 6px; font-size: 13px; }
+}
