@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>瞎分享导航 - 简约实用的网址导航</title>
+<meta name="description" content="瞎分享导航,收录常用网站、在线工具、软件下载、设计素材、编程开发、金融投资等分类网址,简约而有用。">
+<!-- favicon:本地文件 assets/img/xfx_favicon.png -->
+<link rel="icon" href="assets/img/xfx_favicon.png">
+<link rel="apple-touch-icon" href="assets/img/xfx_favicon.png">
+<link rel="stylesheet" href="assets/css/style.css?v=20260911n">
+<!-- 提前加载图标回退小函数,原因见该文件顶部注释 -->
+<script src="assets/js/icon-fallback.js?v=20260911n"></script>
+</head>
+<body>
+
+<!-- ============ 顶部头部 ============ -->
+<header class="site-header">
+  <div class="container header-topbar">
+
+    <!-- 手机端汉堡菜单按钮:放在 logo 前面,最左边(参考老站点布局)。
+         桌面端隐藏,展开/收起逻辑+图标切换见 app.js 的 initMobileMenu()。 -->
+    <button id="mobile-menu-toggle" class="icon-btn mobile-menu-toggle" aria-label="菜单" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
+
+    <!-- Logo:图片 logo,文件 assets/img/xfx_logo.png,"瞎分享"三个字用品牌色,见 style.css 里 .site-logo 的注释 -->
+    <a href="index.html" class="site-logo">
+        <img src="assets/img/xfx_logo.png" class="logo-mark" alt="瞎分享导航">
+        <span class="site-logo__title"><span class="logo-accent">瞎分享</span>导航</span>
+      </a>
+
+    <!-- 顶部菜单:对应原站顶部的几个入口,内部页面(网址榜单/关于我们等)
+         目前是占位页面,内容还没写,先保证链接不会 404,详见 README。
+         每个菜单项前面的小图标是纯 CSS/SVG 画的,不依赖任何图片文件。 -->
+    <nav class="topbar-menu">
+      <!-- 瞎分享是主站,放第一位;后面几个链接里"省钱购物""阿杰潮鞋"也是
+           站长自己开的其它站点,顺序上跟"瞎分享"挨在一起,再是站内的"网址
+           榜单""关于我们"。 -->
+      <a href="https://xiafenxiang.com/" target="_blank" rel="noopener">
+        <svg class="topbar-menu__icon topbar-menu__icon--purple" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        瞎分享
+      </a>
+      <a href="rankings.html">
+        <svg class="topbar-menu__icon topbar-menu__icon--blue" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        网址榜单
+      </a>
+      <a href="https://zhegouku.com/" target="_blank" rel="noopener">
+        <svg class="topbar-menu__icon topbar-menu__icon--orange" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        省钱购物
+      </a>
+      <a href="https://ajchaoxie.com/" target="_blank" rel="noopener">
+        <svg class="topbar-menu__icon topbar-menu__icon--teal" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18v3H3z"/><path d="M3 17c0-2 1-3 3-4l2-3c1-1 2-2 4-2h2c2 0 3 1 4 3l2 3c1 1 2 2 2 3"/><path d="M9 12v-3"/></svg>
+        阿杰潮鞋
+      </a>
+      <a href="about.html">
+        <svg class="topbar-menu__icon topbar-menu__icon--pink" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        关于我们
+      </a>
+    </nav>
+
+    <!-- 标语,想改文案直接改这行文字即可 -->
+    <span class="topbar-slogan">人生而自由,却往往不在枷锁中。</span>
+
+    <!-- 首页有下面单独的大搜索区(.home-hero),头部这里就不需要再放一个搜索图标了,
+         保持头部简洁;其它 4 个占位页没有大搜索区,头部搜索图标还留着,见那几个文件。 -->
+    <div class="header-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="搜索" aria-expanded="false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+      <button id="theme-toggle" class="icon-btn" aria-label="切换深色/浅色模式"></button>
+    </div>
+  </div>
+  <!-- 首页没有单独的 #mobile-nav-panel:手机端汉堡菜单点开的直接是下面
+       .sidebar 那个分类抽屉(里面已经包含了"网址榜单/关于我们"这些链接),
+       一个入口够用,不用再叠一层。其它 4 个没有分类的占位页才用
+       #mobile-nav-panel。 -->
+</header>
+<div id="mobile-menu-backdrop" class="mobile-menu-backdrop"></div>
+
+
+<!-- ============ 首页专属:大标题 + 搜索区 + 快捷入口 ============
+     这一块只有首页(index.html)有,其它占位页没有——按用户提供的参考图重新
+     做过一版:大标题+副标题、居中搜索框、下面 4 个圆角图标"快捷入口"卡片,
+     取代了之前的 5 张图片 Banner(图标都是内联 svg,不依赖图片文件,不会
+     有裂图风险)。标签(站内/百度/Google/必应/淘宝)不是纯装饰,点哪个就
+     真的切换成对应的搜索方式,跟下面这个 hidden 的
+     <select id="hero-search-engine"> 联动,复用的是跟头部搜索栏完全一样
+     一套 JS 逻辑(见 app.js 的 bindSearchInstance)。 -->
+<section class="home-hero">
+  <div class="container">
+    <!-- 标题"搜索网站"和副标题都去掉了——banner 现在只保留一个搜索框,
+         意图已经很明确,不需要额外的文字重复说明。原来副标题那句话在
+         页脚(.footer-brand__slogan)。 -->
+    <div class="hero-search">
+      <form id="hero-search-form" class="hero-search__box search-box" role="search">
+        <input id="hero-search-input" type="search" placeholder="输入关键词搜索" autocomplete="off">
+        <select id="hero-search-engine" class="visually-hidden" title="选择搜索方式" tabindex="-1" aria-hidden="true">
+          <option value="site">站内搜索</option>
+          <option value="baidu">百度</option>
+          <option value="google">Google</option>
+          <option value="bing">必应</option>
+          <option value="taobao">淘宝</option>
+        </select>
+        <button type="submit" class="search-submit" aria-label="搜索">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+      </form>
+      <!-- 搜索范围标签挪到搜索框下面:框本身是视觉主角,标签作为"次要的范围
+           选项"跟在下面,符合"先看到输入框、再看到可选范围"的视觉顺序。 -->
+      <div class="hero-search__tabs" role="tablist" aria-label="切换搜索方式">
+        <button type="button" class="hero-tab is-active" data-engine="site">站内</button>
+        <button type="button" class="hero-tab" data-engine="baidu">百度</button>
+        <button type="button" class="hero-tab" data-engine="google">Google</button>
+        <button type="button" class="hero-tab" data-engine="bing">必应</button>
+        <button type="button" class="hero-tab" data-engine="taobao">淘宝</button>
+      </div>
+    </div>
+
+    <!-- 4 个快捷入口:点击跳到站内对应分类锚点(#cat-xxx,对应 data.js 里
+         分类的 id),"省钱购物"跳外部站,想改成别的分类改 href/svg/文字即可。 -->
+    <div class="hero-quicklinks">
+      <a class="hero-quicklink" href="#cat-changyong">
+        <span class="hero-quicklink__icon hero-quicklink__icon--blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </span>
+        <span class="hero-quicklink__title">常用软件</span>
+        <svg class="hero-quicklink__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <a class="hero-quicklink" href="#cat-sheji">
+        <span class="hero-quicklink__icon hero-quicklink__icon--pink">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20 2.5 2.5 0 0 0 2-4 2 2 0 0 1 2-2h1a4 4 0 0 0 4-4 8 8 0 0 0-9-10z"/><circle cx="7" cy="12" r="1"/><circle cx="9" cy="7.5" r="1"/><circle cx="14.5" cy="7.5" r="1"/><circle cx="16.5" cy="12" r="1"/></svg>
+        </span>
+        <span class="hero-quicklink__title">设计素材</span>
+        <svg class="hero-quicklink__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <a class="hero-quicklink" href="#cat-yingyin">
+        <span class="hero-quicklink__icon hero-quicklink__icon--teal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        </span>
+        <span class="hero-quicklink__title">影音娱乐</span>
+        <svg class="hero-quicklink__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <a class="hero-quicklink" href="https://zhegouku.com/" target="_blank" rel="noopener">
+        <span class="hero-quicklink__icon hero-quicklink__icon--orange">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </span>
+        <span class="hero-quicklink__title">省钱购物</span>
+        <svg class="hero-quicklink__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 主体:侧边栏分类 + 卡片区 ============ -->
+<div class="container layout">
+
+  <!-- 侧边栏:分类列表由 app.js 根据 data.js 自动生成,不需要手动维护 -->
+  <!-- 桌面端:普通的 sticky 侧边栏分类列表,跟之前一样。
+       手机端:同一个元素变成从左边滑出的抽屉(见 style.css 里 860px 断点),
+       点头部汉堡菜单展开——之前手机端是页面顶部一排可换行的"胶囊按钮",
+       往下滚动列表后就再也够不到了,只能划回顶部重新选分类;现在不管滚动到
+       哪里,点汉堡菜单都能随时跳分类。抽屉里额外加了"分类导航"标题、底部
+       "网址榜单/关于我们"这几个站内链接(平时在桌面端顶部菜单里,手机端菜单
+       隐藏了,搬到这里一起给)、以及最下面一个"收起"按钮,方便划到底之后
+       直接收起,不用再划回顶部点汉堡图标。 -->
+  <aside class="sidebar">
+    <div class="sidebar__mobile-head">分类导航</div>
+    <ul id="sidebar-list"></ul>
+    <div class="sidebar__mobile-links-title">网站菜单</div>
+    <nav class="sidebar__mobile-links">
+      <a href="https://xiafenxiang.com/" target="_blank" rel="noopener"><span class="mobile-link-icon mobile-link-icon--purple"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>瞎分享</a>
+      <a href="rankings.html"><span class="mobile-link-icon mobile-link-icon--blue"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>网址榜单</a>
+      <a href="https://zhegouku.com/" target="_blank" rel="noopener"><span class="mobile-link-icon mobile-link-icon--orange"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>省钱购物</a>
+      <a href="https://ajchaoxie.com/" target="_blank" rel="noopener"><span class="mobile-link-icon mobile-link-icon--teal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18v3H3z"/><path d="M3 17c0-2 1-3 3-4l2-3c1-1 2-2 4-2h2c2 0 3 1 4 3l2 3c1 1 2 2 2 3"/><path d="M9 12v-3"/></svg></span>阿杰潮鞋</a>
+      <a href="about.html"><span class="mobile-link-icon mobile-link-icon--pink"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>关于我们</a>
+    </nav>
+    <button type="button" id="sidebar-collapse" class="sidebar__collapse">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      收起
+    </button>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- 平时浏览的正常视图:按分类分组展示所有网站卡片(含子标签切换) -->
+    <div id="normal-view"></div>
+
+    <!-- 搜索结果视图:输入关键词且选择"站内搜索"时,会替代上面的正常视图显示 -->
+    <section id="search-results-section">
+      <h2 id="search-results-title" class="category-section__title"></h2>
+      <div id="search-results-grid" class="card-grid"></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ 页脚 ============ -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+
+    <div class="footer-brand">
+      <a href="index.html" class="site-logo">
+        <img src="assets/img/xfx_logo.png" class="logo-mark" alt="瞎分享导航">
+        <span class="site-logo__title"><span class="logo-accent">瞎分享</span>导航</span>
+      </a>
+      <!-- 原来首页 banner 标题下面的那句副标题("发现实用网站,也欢迎分享你的
+           收藏")挪到了这里,跟页脚原本的这句话意思本来就重叠,合并成一句,
+           避免同一个意思在页面上说两遍。 -->
+      <p class="footer-slogan">发现实用网站,也欢迎分享你的收藏。</p>
+      <div class="footer-social">
+        <!-- 邮箱已经是真实地址(team.xiafenxiang@gmail.com);微信/GitHub 两个还是占位,
+             有真实的二维码图片/GitHub 地址后换上即可 -->
+        <a class="icon-btn" href="#" title="微信" aria-label="微信" onclick="event.stopPropagation(); document.getElementById('popover-wechat-footer').classList.toggle('is-open'); return false;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </a>
+        <!-- 这个气泡是这个 footer 图标专属的(id 带 -footer 后缀,跟右下角
+             悬浮按钮那个 #popover-wechat 是两个独立的元素),样式复用同一套
+             .fab-popover,但定位改成跟着这里出现(见 style.css .fab-popover--footer),
+             不会再跳到屏幕右下角去。 -->
+        <div id="popover-wechat-footer" class="fab-popover fab-popover--footer">
+          <img src="assets/img/wechat-qr.png" alt="微信二维码">
+          <p>扫码加微信</p>
+        </div>
+        <a class="icon-btn" href="mailto:team.xiafenxiang@gmail.com" title="邮箱" aria-label="邮箱">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+        </a>
+        <a class="icon-btn" href="#" title="GitHub" aria-label="GitHub"> <!-- TODO: 换成你的真实GitHub地址 -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- 下面这些链接对应原站的几个入口,内部页面目前是占位内容,详见 README。
+         这里故意用一段"文字流"(而不是竖排列表)来写,配合 style.css 里
+         .footer-links a 之间自动加的 " · " 分隔符,还原原站单行、自动换行的效果。 -->
+    <p class="footer-links">
+      <a href="https://xiafenxiang.com/" target="_blank" rel="noopener">瞎分享</a>
+      <a href="https://zhegouku.com/" target="_blank" rel="noopener">省钱购物</a>
+      <a href="https://ajchaoxie.com/" target="_blank" rel="noopener">阿杰潮鞋</a>
+      <a href="rankings.html">网址榜单</a>
+      <span class="footer-links__break" aria-hidden="true"></span>
+      <a href="about.html">关于我们</a>
+      <a href="contribute.html">好站投稿</a>
+      <a href="links.html">友链申请</a>
+      <a href="about.html">免责声明</a>
+    </p>
+
+    <!-- 二维码:本地文件 assets/img/wechat-qr.png / telegram-qr.png -->
+    <div class="footer-qr">
+      <figure>
+        <img src="assets/img/wechat-qr.png" alt="微信二维码" loading="lazy">
+        <figcaption>扫码加微信</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/img/telegram-qr.png" alt="Telegram二维码" loading="lazy">
+        <figcaption>扫码加TG</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p class="footer-copyright">Copyright © <span class="footer-year"></span> <a href="https://xiafenxiang.com/" target="_blank" rel="noopener">瞎分享</a>. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<!-- ============ 右下角悬浮按钮:微信 / TG 二维码弹出 + 回到顶部 ============ -->
+<div class="fab-stack">
+  <div id="popover-tg" class="fab-popover">
+    <img src="assets/img/telegram-qr.png" alt="Telegram二维码">
+    <p>扫码加TG</p>
+  </div>
+  <button class="fab" data-popover="popover-tg" aria-label="Telegram联系">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+  </button>
+
+  <div id="popover-wechat" class="fab-popover">
+    <img src="assets/img/wechat-qr.png" alt="微信二维码">
+    <p>扫码加微信</p>
+  </div>
+  <button class="fab" data-popover="popover-wechat" aria-label="微信联系">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  </button>
+
+  <button class="fab" id="fab-top" aria-label="回到顶部">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+</div>
+
+<!-- ============ 脚本加载顺序很重要,不要打乱 ============ -->
+<!-- 1) 数据源(手动维护) -->
+<script src="assets/js/data.js?v=20260911n"></script>
+<!-- 1.5) 顶部标语数据源(手动维护,见文件内说明) -->
+<script src="assets/js/slogans.js?v=20260911n"></script>
+<!-- 2) 页面交互逻辑 -->
+<script src="assets/js/app.js?v=20260911n"></script>
+</body>
+</html>

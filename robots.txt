@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# 上线后把下面这行换成你的真实域名 + sitemap.xml 的地址
+Sitemap: https://nav.xiafenxiang.com/sitemap.xml

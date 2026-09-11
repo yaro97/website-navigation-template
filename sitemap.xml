@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  这是一份手写的、极简的 sitemap(网站地图),提交给百度/Google站长平台用。
+  因为现在整个网站已经没有"每个网站一个独立详情页"这种大量重复页面了,
+  只剩首页和几个占位页,没必要再用脚本自动生成,直接手动维护这几行就行。
+
+  部署上线、确定好最终域名之后,记得把下面的 https://your-domain.example
+  批量替换成你的真实域名(比如 https://nav.ajchaoxie.com)。
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://nav.xiafenxiang.com/</loc></url>
+  <url><loc>https://nav.xiafenxiang.com/about.html</loc></url>
+  <url><loc>https://nav.xiafenxiang.com/rankings.html</loc></url>
+  <url><loc>https://nav.xiafenxiang.com/contribute.html</loc></url>
+  <url><loc>https://nav.xiafenxiang.com/links.html</loc></url>
+</urlset>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于我们 | 瞎分享导航</title>
+<meta name="description" content="瞎分享导航是一个简约实用的网址导航站。">
+<link rel="icon" href="assets/img/xfx_favicon.png">
+<link rel="apple-touch-icon" href="assets/img/xfx_favicon.png">
+<link rel="stylesheet" href="assets/css/style.css?v=20260911n">
+<script src="assets/js/icon-fallback.js?v=20260911n"></script>
+</head>
+<body>
+
+<!-- 这是一个简易占位页,对应原网站顶部菜单/页脚里的同名链接,内容还没有正式写,
+     后面想写正式内容,直接编辑这个文件里 <main> 里的文字即可。
+     页头/页脚和首页 index.html 是完全一样的一份 markup(方便复制维护),
+     样式也是共用同一份 assets/css/style.css。 -->
+<header class="site-header">
+  <div class="container header-topbar">
+
+    <!-- 手机端汉堡菜单按钮:放在 logo 前面,最左边(参考老站点布局)。
+         桌面端隐藏,展开/收起逻辑+图标切换见 app.js 的 initMobileMenu()。 -->
+    <button id="mobile-menu-toggle" class="icon-btn mobile-menu-toggle" aria-label="菜单" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
+    <a href="index.html" class="site-logo">
+        <img src="assets/img/xfx_logo.png" class="logo-mark" alt="瞎分享导航">
+        <span class="site-logo__title"><span class="logo-accent">瞎分享</span>导航</span>
+      </a>
+
+    <nav class="topbar-menu">
+      <!-- 瞎分享是主站,放第一位;后面几个链接里"省钱购物""阿杰潮鞋"也是
+           站长自己开的其它站点,顺序上跟"瞎分享"挨在一起,再是站内的"网址
+           榜单""关于我们"。 -->
+      <a href="https://xiafenxiang.com/" target="_blank" rel="noopener">
+        <svg class="topbar-menu__icon topbar-menu__icon--purple" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        瞎分享
+      </a>
+      <a href="rankings.html">
+        <svg class="topbar-menu__icon topbar-menu__icon--blue" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        网址榜单
+      </a>
+      <a href="https://zhegouku.com/" target="_blank" rel="noopener">
+        <svg class="topbar-menu__icon topbar-menu__icon--orange" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        省钱购物
+      </a>
+      <a href="https://ajchaoxie.com/" target="_blank" rel="noopener">
+        <svg class="topbar-menu__icon topbar-menu__icon--teal" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18v3H3z"/><path d="M3 17c0-2 1-3 3-4l2-3c1-1 2-2 4-2h2c2 0 3 1 4 3l2 3c1 1 2 2 2 3"/><path d="M9 12v-3"/></svg>
+        阿杰潮鞋
+      </a>
+      <a href="about.html">
+        <svg class="topbar-menu__icon topbar-menu__icon--pink" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        关于我们
+      </a>
+    </nav>
+
+    <span class="topbar-slogan">人生而自由,却往往不在枷锁中。</span>
+
+    <div class="header-actions">
+      <button id="search-toggle" class="icon-btn" aria-label="搜索" aria-expanded="false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+      <button id="theme-toggle" class="icon-btn" aria-label="切换深色/浅色模式"></button>
+    </div>
+  </div>
+  <!-- 手机端汉堡菜单展开的下拉面板:内容跟上面 .topbar-menu 的链接完全一样,
+       只是手机端 .topbar-menu 被隐藏了,这里单独给手机端一份可以点开的菜单,
+       不然手机上完全没入口点"网址榜单/关于我们"这些页面。 -->
+  <nav id="mobile-nav-panel" class="mobile-nav-panel" aria-label="移动端菜单">
+    <a href="https://xiafenxiang.com/" target="_blank" rel="noopener"><span class="mobile-link-icon mobile-link-icon--purple"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>瞎分享</a>
+    <a href="rankings.html"><span class="mobile-link-icon mobile-link-icon--blue"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>网址榜单</a>
+    <a href="https://zhegouku.com/" target="_blank" rel="noopener"><span class="mobile-link-icon mobile-link-icon--orange"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>省钱购物</a>
+    <a href="https://ajchaoxie.com/" target="_blank" rel="noopener"><span class="mobile-link-icon mobile-link-icon--teal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18v3H3z"/><path d="M3 17c0-2 1-3 3-4l2-3c1-1 2-2 4-2h2c2 0 3 1 4 3l2 3c1 1 2 2 2 3"/><path d="M9 12v-3"/></svg></span>阿杰潮鞋</a>
+    <a href="about.html"><span class="mobile-link-icon mobile-link-icon--pink"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>关于我们</a>
+  </nav>
+
+
+  <!-- 在占位页上搜索,回车后会自动跳回首页帮你把这次搜索接着做完(见 app.js 里的说明) -->
+  <div id="search-panel" class="search-panel">
+    <div class="container">
+      <form id="search-form" class="search-box" role="search">
+        <input id="search-input" type="search" placeholder="搜搜不花钱~" autocomplete="off">
+        <select id="search-engine" title="选择搜索方式">
+          <option value="site">站内搜索</option>
+          <option value="baidu">百度</option>
+          <option value="google">Google</option>
+          <option value="bing">必应</option>
+          <option value="taobao">淘宝</option>
+        </select>
+        <button type="submit" class="search-submit" aria-label="搜索">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</header>
+<div id="mobile-menu-backdrop" class="mobile-menu-backdrop"></div>
+
+
+<main class="about-main">
+  <span class="about-mark"></span>
+  <h1>关于我们</h1>
+
+  <section class="about-card">
+    <h2 class="about-card__title">关于本站</h2>
+    <ul class="about-list">
+      <li>瞎分享导航是一个综合性导航网站平台,收录了大量的软件、素材、视频、书籍等各类资源,希望能为您提供些许帮助。</li>
+      <li>"简约有用"是我们的宗旨,我们会砥砺前行,努力做一个对您有用的网站,也请小伙伴们积极监督、交流!</li>
+      <li>为方便您使用,建议您将<a href="index.html">本站</a>设为浏览器主页,或者按 <strong>Ctrl+D</strong>(Mac 是 <strong>Cmd+D</strong>)键添加到浏览器收藏夹。</li>
+    </ul>
+
+    <p class="about-quote">路漫漫其修远兮,吾将上下而求索……</p>
+
+    <h2 class="about-card__title">免责声明</h2>
+    <ol class="about-list about-list--numbered">
+      <li>本站大部分资源收集于网络,只做学习和交流使用,版权归原作者所有。若您需要使用非免费的软件或服务,请购买正版授权并合法使用。本站发布的内容若侵犯到您的权益,请联系站长(<a href="mailto:team.xiafenxiang@gmail.com">team.xiafenxiang@gmail.com</a>)删除,我们将及时处理。</li>
+      <li>本站所分享的资源不保证其完整性和安全性,请自行检测安全,在使用过程中出现的任何问题均与本站无关,请自行处理。</li>
+      <li>本站为完全免费的导航网站,所有目标网站问题,本站不负责,更没义务提供任何性质的技术支持,需要技术支持的请购买官方商业版。</li>
+      <li>访问本站的用户必须明白,对提供的资源网站不拥有任何权利,其版权归该目标网站的合法拥有者所有!</li>
+      <li>未经本站的明确许可,任何人不得盗链本站内容;不得复制或仿造本网站或者在非本站所属的服务器上建立镜像,对其自行开发的或和他人共同开发的所有内容、技术手段和服务拥有全部知识产权,任何人不得侵害或破坏,也不得擅自使用!</li>
+    </ol>
+
+    <h2 class="about-card__title">联系我们</h2>
+    <ul class="about-list">
+      <li>合作:<a href="mailto:team.xiafenxiang@gmail.com">team.xiafenxiang@gmail.com</a></li>
+      <li>反馈:<a href="mailto:team.xiafenxiang@gmail.com">team.xiafenxiang@gmail.com</a></li>
+    </ul>
+  </section>
+
+  <a class="back-home" href="index.html">← 返回首页</a>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="site-logo">
+        <img src="assets/img/xfx_logo.png" class="logo-mark" alt="瞎分享导航">
+        <span class="site-logo__title"><span class="logo-accent">瞎分享</span>导航</span>
+      </a>
+      <p class="footer-slogan">发现实用网站,也欢迎分享你的收藏。</p>
+      <div class="footer-social">
+        <a class="icon-btn" href="#" title="微信" aria-label="微信" onclick="event.stopPropagation(); document.getElementById('popover-wechat-footer').classList.toggle('is-open'); return false;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </a>
+        <!-- 这个气泡是这个 footer 图标专属的(id 带 -footer 后缀,跟右下角
+             悬浮按钮那个 #popover-wechat 是两个独立的元素),样式复用同一套
+             .fab-popover,但定位改成跟着这里出现(见 style.css .fab-popover--footer),
+             不会再跳到屏幕右下角去。 -->
+        <div id="popover-wechat-footer" class="fab-popover fab-popover--footer">
+          <img src="assets/img/wechat-qr.png" alt="微信二维码">
+          <p>扫码加微信</p>
+        </div>
+        <a class="icon-btn" href="mailto:team.xiafenxiang@gmail.com" title="邮箱" aria-label="邮箱">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+        </a>
+        <a class="icon-btn" href="#" title="GitHub" aria-label="GitHub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <p class="footer-links">
+      <a href="https://xiafenxiang.com/" target="_blank" rel="noopener">瞎分享</a>
+      <a href="https://zhegouku.com/" target="_blank" rel="noopener">省钱购物</a>
+      <a href="https://ajchaoxie.com/" target="_blank" rel="noopener">阿杰潮鞋</a>
+      <a href="rankings.html">网址榜单</a>
+      <span class="footer-links__break" aria-hidden="true"></span>
+      <a href="about.html">关于我们</a>
+      <a href="contribute.html">好站投稿</a>
+      <a href="links.html">友链申请</a>
+      <a href="about.html">免责声明</a>
+    </p>
+
+    <div class="footer-qr">
+      <figure>
+        <img src="assets/img/wechat-qr.png" alt="微信二维码" loading="lazy">
+        <figcaption>扫码加微信</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/img/telegram-qr.png" alt="Telegram二维码" loading="lazy">
+        <figcaption>扫码加TG</figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p class="footer-copyright">Copyright © <span class="footer-year"></span> <a href="https://xiafenxiang.com/" target="_blank" rel="noopener">瞎分享</a>. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<div class="fab-stack">
+  <div id="popover-tg" class="fab-popover">
+    <img src="assets/img/telegram-qr.png" alt="Telegram二维码">
+    <p>扫码加TG</p>
+  </div>
+  <button class="fab" data-popover="popover-tg" aria-label="Telegram联系">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+  </button>
+
+  <div id="popover-wechat" class="fab-popover">
+    <img src="assets/img/wechat-qr.png" alt="微信二维码">
+    <p>扫码加微信</p>
+  </div>
+  <button class="fab" data-popover="popover-wechat" aria-label="微信联系">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  </button>
+
+  <button class="fab" id="fab-top" aria-label="回到顶部">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+</div>
+
+<script src="assets/js/data.js?v=20260911n"></script>
+<script src="assets/js/slogans.js?v=20260911n"></script>
+<script src="assets/js/app.js?v=20260911n"></script>
+</body>
+</html>
