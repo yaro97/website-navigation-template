@@ -15,13 +15,39 @@ JavaScript,克隆下来就是一份完整、可以直接用的导航站源码。
 
 ## 📸 截图
 
-<!-- 这里放几张实际效果截图,例如首页(浅色)、首页(深色模式)、移动端。
-     截图文件建议放进一个 docs/screenshots/ 或 assets/img/ 目录,然后用
-     下面这种写法引用,比如:
-     ![首页截图](./docs/screenshots/home.png)
-     ![深色模式截图](./docs/screenshots/dark.png)
-     ![移动端截图](./docs/screenshots/mobile.png)
--->
+## 📸 截图
+
+### 桌面端
+
+<p align="center">
+  <img src="./docs/screenshots/home-01.png" alt="网址导航首页桌面端" width="900">
+</p>
+
+<p align="center">
+  <img src="./docs/screenshots/home-02.png" alt="网址导航首页桌面端第二屏" width="900">
+</p>
+
+### 深色模式
+
+<p align="center">
+  <img src="./docs/screenshots/dark-01.png" alt="网址导航深色模式" width="900">
+</p>
+
+### 移动端
+
+<p align="center">
+  <img src="./docs/screenshots/mobile-01.png" alt="网址导航移动端首页" width="380">
+</p>
+
+<p align="center">
+  <img src="./docs/screenshots/mobile-02.png" alt="网址导航移动端侧边菜单" width="380">
+</p>
+
+<p align="center">
+  <img src="./docs/screenshots/mobile-03.png" alt="网址导航移动端深色模式" width="380">
+</p>
+
+---
 
 ---
 
