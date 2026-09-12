@@ -6,7 +6,7 @@
  *   - assets/js/rankings-data.js  必须在本文件之前加载,提供 window.RANKINGS_DATA
  *   - assets/js/icon-fallback.js  首页也在用的图标多级回退逻辑(在 <head> 里已加载)
  *
- * 逻辑很简单:左边三个 tab 按钮(日榜/周榜/月榜),点哪个就把对应数组渲染
+ * 逻辑很简单:左边三个 tab 按钮(日榜/周榜/月榜), 点哪个就把对应数组渲染
  * 到右边列表里,同时更新最上面大标题/副标题的文字。默认显示"日榜"。
  */
 (function () {
