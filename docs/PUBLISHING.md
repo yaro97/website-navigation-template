@@ -2,7 +2,7 @@
 
 这份文档假设你已经有一个 GitHub 账号,项目文件都在你本地的某个文件夹
 里(下面统一用 `你的项目文件夹路径` 代指,换成你自己电脑上的实际路径
-就行,比如 `D:\Projects\xiafenxiang-nav`)。分两大部分:
+就行,比如 `D:\Projects\site-nav-template`)。分两大部分:
 **一、把代码传到 GitHub**;**二、让 `nav.xiafenxiang.com` 能访问到这个站**。
 
 ---
@@ -48,7 +48,7 @@ git commit -m "Initial commit: 瞎分享导航静态站点"
 **5. 在 GitHub 网站上创建一个新仓库**
 
 1. 打开 https://github.com/new
-2. 填写仓库名,比如 `xiafenxiang-nav`(名字随意,不影响最终域名)
+2. 填写仓库名,比如 `site-nav-template`(名字随意,不影响最终域名)
 3. **不要**勾选"Add a README file"、"Add .gitignore"、"Choose a license"
    这几个选项(本地已经有这些文件了,勾选了反而会导致推送时冲突)
 4. Public(公开)还是 Private(私有)都可以,想让别人看到代码就选
@@ -99,7 +99,7 @@ git push
 传上去的情况。**注意**:GitHub 网页端不会自动帮你解压 zip,所以要先在
 自己电脑上把 zip 解压好,上传的是解压出来的文件/文件夹,不是 zip 本身。
 
-1. 打开 https://github.com/new,填仓库名(比如 `xiafenxiang-nav`),
+1. 打开 https://github.com/new,填仓库名(比如 `site-nav-template`),
    下面几个"Add a README file / .gitignore / license"选项**都不要勾**,
    选好 Public/Private,点 "Create repository"。
 2. 新建好的仓库是空的,页面上会有一行提示文字,点其中的
@@ -210,10 +210,10 @@ Node、不需要 `npm install`、不需要任何"构建"这一步。
 
 ```bash
 # 方式一:服务器上直接 git clone(需要服务器能访问 GitHub)
-git clone https://github.com/你的用户名/仓库名.git /var/www/xiafenxiang-nav
+git clone https://github.com/你的用户名/仓库名.git /var/www/site-nav-template
 
 # 方式二:本地用 scp/rsync 直接传文件,不依赖 GitHub
-rsync -avz --exclude '.git' ./ 用户名@服务器IP:/var/www/xiafenxiang-nav/
+rsync -avz --exclude '.git' ./ 用户名@服务器IP:/var/www/site-nav-template/
 ```
 
 **2. 安装并配置 Nginx**
@@ -223,14 +223,14 @@ rsync -avz --exclude '.git' ./ 用户名@服务器IP:/var/www/xiafenxiang-nav/
 sudo apt update && sudo apt install -y nginx
 ```
 
-新建一个配置文件,比如 `/etc/nginx/sites-available/xiafenxiang-nav`:
+新建一个配置文件,比如 `/etc/nginx/sites-available/site-nav-template`:
 
 ```nginx
 server {
     listen 80;
     server_name nav.xiafenxiang.com;      # 换成你自己的域名
 
-    root /var/www/xiafenxiang-nav;        # 上一步代码放的位置
+    root /var/www/site-nav-template;        # 上一步代码放的位置
     index index.html;
 
     location / {
@@ -242,7 +242,7 @@ server {
 启用这份配置并让 Nginx 重新加载:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/xiafenxiang-nav /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/site-nav-template /etc/nginx/sites-enabled/
 sudo nginx -t              # 检查配置文件语法有没有写错
 sudo systemctl reload nginx
 ```
@@ -270,7 +270,7 @@ sudo certbot --nginx -d nav.xiafenxiang.com
 如果用的是方式一(`git clone`),以后更新只需要在服务器上:
 
 ```bash
-cd /var/www/xiafenxiang-nav
+cd /var/www/site-nav-template
 git pull
 ```
 

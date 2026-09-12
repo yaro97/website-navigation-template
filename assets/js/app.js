@@ -314,6 +314,7 @@
     if (!keyword) {
       normal.classList.remove("is-hidden");
       resultSection.classList.remove("is-active");
+      document.body.classList.remove("is-searching");
       return;
     }
 
@@ -327,6 +328,10 @@
 
     normal.classList.add("is-hidden");
     resultSection.classList.add("is-active");
+    // 手机端专用:搜索有结果展示时,临时隐藏首页 4 个快捷卡片让出空间,
+    // 具体隐藏规则见 style.css 里 body.is-searching .hero-quicklinks
+    // (只在手机端断点生效)。
+    document.body.classList.add("is-searching");
     resultTitle.textContent = '搜索 "' + keyword + '" 共找到 ' + matched.length + " 个结果";
 
     resultGrid.innerHTML = matched.length
@@ -382,6 +387,7 @@
         var resultSection = document.getElementById("search-results-section");
         if (normalView) normalView.classList.remove("is-hidden");
         if (resultSection) resultSection.classList.remove("is-active");
+        document.body.classList.remove("is-searching");
       }
     });
   }
@@ -457,7 +463,12 @@
     // 点面板里任意链接、点分类(.sidebar__item)、或者点底部的"收起"按钮,
     // 都自动收起——不用用户点完之后还得自己再去点一次遮罩或汉堡图标关掉。
     panel.addEventListener("click", function (e) {
-      if (e.target.closest("a") || e.target.closest(".sidebar__item") || e.target.closest("#sidebar-collapse")) {
+      if (
+        e.target.closest("a") ||
+        e.target.closest(".sidebar__item") ||
+        e.target.closest("#sidebar-collapse") ||
+        e.target.closest(".mobile-nav-panel__collapse")
+      ) {
         setOpen(false);
       }
     });

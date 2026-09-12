@@ -34,7 +34,7 @@
 ## 二、目录结构
 
 ```
-xiafenxiang-nav/                项目根目录(文件夹名字随意,这里只是举例)
+site-nav-template/                项目根目录(文件夹名字随意,这里只是举例)
 ├── index.html                 首页(导航主页面,分类/子分类/搜索/主题切换都在这里)
 ├── about.html                 "关于我们" 占位页
 ├── rankings.html              "网址榜单" 页面

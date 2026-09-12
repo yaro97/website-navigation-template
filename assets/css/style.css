@@ -1137,41 +1137,85 @@ a.site-card { cursor: pointer; }
   .mobile-menu-backdrop.is-open { opacity: 1; pointer-events: auto; }
 
   /* 没有分类的占位页(about/links/contribute/rankings):汉堡菜单点开的是
-     这个纯链接下拉面板,z-index 要比上面的遮罩(55)高,不然会被遮罩盖住。 */
+     这个纯链接面板。最早是嵌在 <header> 里用 position:absolute 做的窄
+     下拉条,后来发现被 .site-header 的层叠上下文挡住,改成挪到 <header>
+     外面 + position:fixed 的下拉条,z-index 问题是修好了,但样子还是
+     "只盖住顶上一截、下面一大截正文露着变暗"的下拉条,跟遮罩搭配起来
+     显得很别扭(用户反馈)。现在直接改成跟首页 .sidebar 分类抽屉完全
+     一样的"从左边整屏滑出"的样式——反正首页那套视觉语言(标题+列表+
+     收起按钮)用户已经见过一次了,这几个占位页复用同一个模式,不会显得
+     突兀,也不会再有"上面一截抽屉+下面一截露馅的正文"这种半吊子效果。 */
   .mobile-nav-panel {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 0;
     left: 0;
-    right: 0;
+    bottom: 0;
+    width: 82%;
+    max-width: 300px;
     background: var(--color-bg-elevated);
-    border-bottom: 1px solid var(--color-border);
-    box-shadow: 0 12px 24px rgba(16, 24, 40, 0.1);
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.25s ease;
+    box-shadow: 0 0 32px rgba(16, 24, 40, 0.18);
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
     z-index: 60;
+    overflow-y: auto;
   }
-  .mobile-nav-panel.is-open { max-height: 260px; }
+  .mobile-nav-panel.is-open { transform: translateX(0); }
+
+  .mobile-nav-panel__head {
+    display: block;
+    flex-shrink: 0;
+    padding: 18px 16px 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .mobile-nav-panel__links {
+    flex: 1;
+    padding: 8px;
+  }
   .mobile-nav-panel a {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 14px 20px;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
     font-size: 14px;
     font-weight: 500; /* 跟桌面端 .topbar-menu 一样加重一档 */
     color: var(--color-text-secondary);
-    border-bottom: 1px solid var(--color-border);
   }
   .mobile-nav-panel a svg { stroke-width: 2.4; }
-  .mobile-nav-panel a:last-child { border-bottom: none; }
-  .mobile-nav-panel a:hover { color: var(--color-primary); background: var(--color-primary-bg); }
+  .mobile-nav-panel a:hover { background: var(--color-bg); color: var(--color-text); }
+
+  .mobile-nav-panel__collapse {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-shrink: 0;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-top: 1px solid var(--color-border);
+    background: none;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+  }
 
   /* 首页大搜索区:4 个快捷入口卡片桌面端一排 4 个,窄屏放不下会太挤,
      改成两列两行。 */
   .home-hero { padding: 32px 0 20px; }
   .hero-quicklinks { grid-template-columns: repeat(2, 1fr); }
+
+  /* 手机端屏幕本来就矮,再叠加输入法键盘,可视区域所剩无几——正在搜索
+     (site-search 有关键词、下面 #search-results-section 显示结果)的时候,
+     这 4 张快捷卡片纯粹占地方,先藏起来,把空间让给搜索结果,清空搜索词
+     后 body 的 is-searching 会被去掉,卡片自动恢复(见 app.js
+     runSiteSearch())。只在手机端断点生效,桌面端屏幕够高,不受影响。 */
+  body.is-searching .hero-quicklinks { display: none; }
   /* 手动改成竖排(侧边栏在上,正文在下)之后,.layout 原来的
      align-items: flex-start 会让子元素"宽度按内容缩",而不是撑满容器——
      .sidebar 那边已经单独写了 width:100% correct 过来了,.main-content

@@ -7,8 +7,8 @@
 <meta name="description" content="向瞎分享导航推荐一个好网站。">
 <link rel="icon" href="assets/img/xfx_favicon.png">
 <link rel="apple-touch-icon" href="assets/img/xfx_favicon.png">
-<link rel="stylesheet" href="assets/css/style.css?v=20260911n">
-<script src="assets/js/icon-fallback.js?v=20260911n"></script>
+<link rel="stylesheet" href="assets/css/style.css?v=20260911p">
+<script src="assets/js/icon-fallback.js?v=20260911p"></script>
 </head>
 <body>
 
@@ -65,18 +65,6 @@
       <button id="theme-toggle" class="icon-btn" aria-label="切换深色/浅色模式"></button>
     </div>
   </div>
-  <!-- 手机端汉堡菜单展开的下拉面板:内容跟上面 .topbar-menu 的链接完全一样,
-       只是手机端 .topbar-menu 被隐藏了,这里单独给手机端一份可以点开的菜单,
-       不然手机上完全没入口点"网址榜单/关于我们"这些页面。 -->
-  <nav id="mobile-nav-panel" class="mobile-nav-panel" aria-label="移动端菜单">
-    <a href="https://xiafenxiang.com/" target="_blank" rel="noopener"><span class="mobile-link-icon mobile-link-icon--purple"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>瞎分享</a>
-    <a href="rankings.html"><span class="mobile-link-icon mobile-link-icon--blue"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>网址榜单</a>
-    <a href="https://zhegouku.com/" target="_blank" rel="noopener"><span class="mobile-link-icon mobile-link-icon--orange"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>省钱购物</a>
-    <a href="https://ajchaoxie.com/" target="_blank" rel="noopener"><span class="mobile-link-icon mobile-link-icon--teal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18v3H3z"/><path d="M3 17c0-2 1-3 3-4l2-3c1-1 2-2 4-2h2c2 0 3 1 4 3l2 3c1 1 2 2 2 3"/><path d="M9 12v-3"/></svg></span>阿杰潮鞋</a>
-    <a href="about.html"><span class="mobile-link-icon mobile-link-icon--pink"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>关于我们</a>
-  </nav>
-
-
   <!-- 在占位页上搜索,回车后会自动跳回首页帮你把这次搜索接着做完(见 app.js 里的说明) -->
   <div id="search-panel" class="search-panel">
     <div class="container">
@@ -96,6 +84,25 @@
     </div>
   </div>
 </header>
+  <!-- 手机端汉堡菜单展开的抽屉:样式跟首页 .sidebar 分类抽屉完全一样(整屏
+       从左边滑出),内容是跟桌面端 .topbar-menu 一样的 5 个链接——这几个
+       占位页没有分类,用不上 .sidebar 那一整套,单独给手机端一份。 -->
+  <nav id="mobile-nav-panel" class="mobile-nav-panel" aria-label="移动端菜单">
+    <div class="mobile-nav-panel__head">网站菜单</div>
+    <div class="mobile-nav-panel__links">
+    <a href="https://xiafenxiang.com/" target="_blank" rel="noopener"><span class="mobile-link-icon mobile-link-icon--purple"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>瞎分享</a>
+    <a href="rankings.html"><span class="mobile-link-icon mobile-link-icon--blue"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>网址榜单</a>
+    <a href="https://zhegouku.com/" target="_blank" rel="noopener"><span class="mobile-link-icon mobile-link-icon--orange"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>省钱购物</a>
+    <a href="https://ajchaoxie.com/" target="_blank" rel="noopener"><span class="mobile-link-icon mobile-link-icon--teal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18v3H3z"/><path d="M3 17c0-2 1-3 3-4l2-3c1-1 2-2 4-2h2c2 0 3 1 4 3l2 3c1 1 2 2 2 3"/><path d="M9 12v-3"/></svg></span>阿杰潮鞋</a>
+    <a href="about.html"><span class="mobile-link-icon mobile-link-icon--pink"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>关于我们</a>
+    </div>
+    <button type="button" class="mobile-nav-panel__collapse">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      收起
+    </button>
+  </nav>
+
+
 <div id="mobile-menu-backdrop" class="mobile-menu-backdrop"></div>
 
 
@@ -108,7 +115,7 @@
 网站地址:https://example.com
 推荐分类(如:设计素材/效率工具/常用软件等):xxx
 一句话简介(不超过30字):xxx</pre>
-  <p>我们会尽快审核并邮件回复你。这里之后也可以换成一个真正的投稿表单。</p>
+  <p>我们会尽快审核并邮件回复你,感谢支持!</p>
   <a class="back-home" href="index.html">← 返回首页</a>
 </main>
 
@@ -191,8 +198,8 @@
   </button>
 </div>
 
-<script src="assets/js/data.js?v=20260911n"></script>
-<script src="assets/js/slogans.js?v=20260911n"></script>
-<script src="assets/js/app.js?v=20260911n"></script>
+<script src="assets/js/data.js?v=20260911p"></script>
+<script src="assets/js/slogans.js?v=20260911p"></script>
+<script src="assets/js/app.js?v=20260911p"></script>
 </body>
 </html>

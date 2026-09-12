@@ -25,9 +25,9 @@
  */
 window.RANKINGS_DATA = {
   "tabs": [
-    { "id": "daily", "label": "日榜", "title": "网址热度日榜", "subtitle": "根据今天的访问热度排列(静态快照,不会自动变化)" },
-    { "id": "weekly", "label": "周榜", "title": "网址热度周榜", "subtitle": "根据本周的访问热度排列(静态快照,不会自动变化)" },
-    { "id": "monthly", "label": "月榜", "title": "网址热度月榜", "subtitle": "根据本月的访问热度排列(静态快照,不会自动变化)" }
+    { "id": "daily", "label": "日榜", "title": "网址热度日榜", "subtitle": "根据今天的访问热度排列" },
+    { "id": "weekly", "label": "周榜", "title": "网址热度周榜", "subtitle": "根据本周的访问热度排列" },
+    { "id": "monthly", "label": "月榜", "title": "网址热度月榜", "subtitle": "根据本月的访问热度排列" }
   ],
   "items": {
     "daily": [
