@@ -180,3 +180,11 @@ GitHub、GitHub Pages 具体怎么点、Nginx 部署更详细的步骤、DNS 怎
 发现好网站想推荐、或者友链申请,可以通过站内的"好站投稿"/"友链申请"
 页面提交,也可以通过页脚的联系方式联系。发现代码问题或有改进建议,
 欢迎提 Issue 或 Pull Request。
+
+## ☕ 支持项目
+
+如果这个项目对你有帮助，欢迎请我喝杯咖啡。
+
+<p align="center">
+  <img src="./docs/donate/wechat-alipay.png" alt="微信和支付宝打赏二维码" width="440">
+</p>
